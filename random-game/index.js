@@ -104,7 +104,32 @@ function calculateAdjacentMinesCell(i, j, grid) {
   return adjacentMines;
 }
 
+function findMines(grid) {
+  let mines = [];
+
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+
+      if (grid[i][j].isMine) {
+        mines.push({ i, j });
+      }
+    }
+  }
+  return mines;
+}
+
+function revealMines(grid) {
+  let mines = findMines(grid);
+  mines.forEach((mine) => {
+    let cellMine = document.getElementById(`${mine.i}-${mine.j}`);
+    cellMine.classList.add('cell-mine');
+  })
+}
+
+
 // let grid = createGrid(levels.beginner.width, levels.beginner.height);
 // renderGrid(grid);
 // plantMines(grid, levels.beginner.mines_amount);
 // calculateAdjacentMines(grid);
+// findMines(grid);
+// revealMines(grid);
