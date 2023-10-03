@@ -49,10 +49,6 @@ function plantMines(grid, minesNum) {
     if (!grid[i][j].isMine || !grid[i][j].isRevealed) {
       grid[i][j].isMine = true;
       addedMines++;
-      ////////
-      // let cell = document.getElementById(`${i}-${j}`);
-      // cell.classList.add('cell-mine');
-      ///////
     }
   }
 }
@@ -69,10 +65,6 @@ function calculateAdjacentMines(grid) {
     for (let j = 0; j < grid[0].length; j++) {
       if (!grid[i][j].isMine) {
         grid[i][j].adjMines = calculateAdjacentMinesCell(i, j, grid);
-        ////
-        // let cell = document.getElementById(`${i}-${j}`);
-        // cell.textContent = grid[i][j].adjMines;
-        ////
       }
     }
   }
@@ -111,7 +103,7 @@ function findMines(grid) {
     for (let j = 0; j < grid[0].length; j++) {
 
       if (grid[i][j].isMine) {
-        mines.push({ i, j });
+        mines.push({i, j});
       }
     }
   }
@@ -126,10 +118,76 @@ function revealMines(grid) {
   })
 }
 
+function revealCell(i, j, grid) {
+  if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || grid[i][j].isRevealed) {
+    return;
+  }
 
-// let grid = createGrid(levels.beginner.width, levels.beginner.height);
-// renderGrid(grid);
-// plantMines(grid, levels.beginner.mines_amount);
-// calculateAdjacentMines(grid);
+  let cell = document.getElementById(`${i}-${j}`);
+  grid[i][j].isRevealed = true;
+  cell.classList.add('cell-opened');
+  cell.classList.remove('cell-closed');
+
+  if (grid[i][j].isMine) {
+    /// game over
+    revealMines(grid);
+    cell.classList.add('cell-mine-clicked');
+  } else if (grid[i][j].adjMines !== 0) {
+    cell.textContent = grid[i][j].adjMines;
+    cell.style.color = chooseColor(grid[i][j].adjMines);
+  } else {
+    for (let x = -1; x <= 1; x++) {
+      for (let y = -1; y <= 1; y++) {
+        revealCell(i + x, j + y, grid);
+      }
+    }
+  }
+}
+
+function chooseColor (number) {
+  let color = '';
+  switch(number) {
+    case 1:
+      color = '#244afc';
+      break;
+    case 2:
+      color = '#407f07';
+      break;
+    case 3:
+      color = '#fe0000';
+      break;
+    case 4:
+      color = '#0d2180';
+      break;
+    case 5:
+      color = '#801e17';
+      break;
+    case 6:
+      color = '#008284';
+      break;
+    case 7:
+      color = '#840084';
+      break;
+    case 8:
+      color = '#757575';
+      break;
+    default:
+      color = '#000000';
+      break;
+  }
+  return color;
+}
+
+let grid = createGrid(levels.beginner.width, levels.beginner.height);
+renderGrid(grid);
+plantMines(grid, levels.beginner.mines_amount);
+calculateAdjacentMines(grid);
 // findMines(grid);
 // revealMines(grid);
+
+gridHTML.addEventListener("click", (e) => {
+  let id = e.target.id.split('-');
+  let i = Number(id[0]);
+  let j = Number(id[1]);
+  revealCell(i, j, grid);
+})

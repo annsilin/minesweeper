@@ -6,6 +6,7 @@
   --grey-bg-color: #c6c6c6;
   --grey-border-color: #808080;
   --white-border-color: #FFFFFF;
+  --num-color: #000000;
   --num-1-color: #244afc;
   --num-2-color: #407f07;
   --num-3-color: #fe0000;
@@ -60,4 +61,8 @@
 .cell-mine {
   background-image: url(../svg/mine.svg);
   background-size: cover;
+}
+
+.cell-mine-clicked {
+  background-color: #ff0000;
 }
