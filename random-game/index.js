@@ -35,7 +35,7 @@ function renderGrid(grid) {
       let cell = document.createElement('div');
       cell.classList.add('cell');
       cell.classList.add('cell-closed');
-      cell.id = `${i}${j}`;
+      cell.id = `${i}-${j}`;
       gridHTML.appendChild(cell);
     }
   }
@@ -49,6 +49,10 @@ function plantMines(grid, minesNum) {
     if (!grid[i][j].isMine || !grid[i][j].isRevealed) {
       grid[i][j].isMine = true;
       addedMines++;
+      ////////
+      // let cell = document.getElementById(`${i}-${j}`);
+      // cell.classList.add('cell-mine');
+      ///////
     }
   }
 }
@@ -58,3 +62,49 @@ function getRandomInt(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+/* Calculate adjacent mines for every cell in a grid */
+function calculateAdjacentMines(grid) {
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+      if (!grid[i][j].isMine) {
+        grid[i][j].adjMines = calculateAdjacentMinesCell(i, j, grid);
+        ////
+        // let cell = document.getElementById(`${i}-${j}`);
+        // cell.textContent = grid[i][j].adjMines;
+        ////
+      }
+    }
+  }
+}
+
+/* Traverse through given cell's neighbors and calculate amount of mines */
+function calculateAdjacentMinesCell(i, j, grid) {
+  /* +----------+--------+----------+
+     | i-1, j-1 | i-1, j | i-1, j+1 |
+     +----------+--------+----------+
+     | i, j-1   | i, j   | i, j+1   |
+     +----------+--------+----------+
+     | i+1, j-1 | i+1, j | i+1, j+1 |
+     +----------+--------+----------+ */
+  let adjacentMines = 0;
+  for (let x = -1; x <= 1; x++) {
+    for (let y = -1; y <= 1; y++) {
+      const neighborRow = i + x;
+      const neighborCol = j + y;
+      if (
+        neighborRow >= 0 && neighborRow < grid.length &&
+        neighborCol >= 0 && neighborCol < grid[0].length &&
+        grid[neighborRow][neighborCol].isMine
+      ) {
+        adjacentMines++;
+      }
+    }
+  }
+  return adjacentMines;
+}
+
+// let grid = createGrid(levels.beginner.width, levels.beginner.height);
+// renderGrid(grid);
+// plantMines(grid, levels.beginner.mines_amount);
+// calculateAdjacentMines(grid);
