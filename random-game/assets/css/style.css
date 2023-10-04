@@ -47,6 +47,14 @@
   border-bottom: 3px solid var(--grey-border-color);
 }
 
+.cell-active {
+  background-color: var(--grey-bg-color);
+  border-left: 2px solid var(--grey-border-color);
+  border-top: 2px solid var(--grey-border-color);
+  border-right: none;
+  border-bottom: none;
+}
+
 .cell-opened {
   background-color: var(--grey-bg-color);
   border-left: 2px solid var(--grey-border-color);

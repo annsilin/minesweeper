@@ -23,7 +23,7 @@ function createGrid(width, height) {
   for (let i = 0; i < width; i++) {
     grid[i] = [];
     for (let j = 0; j < height; j++) {
-      grid[i][j] = {isMine: false, isRevealed: false, adjMines: 0};
+      grid[i][j] = {isMine: false, isRevealed: false, adjMines: 0, isFlagged: false};
     }
   }
   return grid;
@@ -110,6 +110,34 @@ function findMines(grid) {
   return mines;
 }
 
+function findFlags(grid) {
+  let flags = [];
+
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+
+      if (grid[i][j].isFlagged) {
+        flags.push({i, j});
+      }
+    }
+  }
+  return flags;
+}
+
+function findRevealedCells(grid) {
+  let revealed = [];
+
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+
+      if (grid[i][j].isRevealed) {
+        revealed.push({i, j});
+      }
+    }
+  }
+  return revealed;
+}
+
 function revealMines(grid) {
   let mines = findMines(grid);
   mines.forEach((mine) => {
@@ -141,6 +169,17 @@ function revealCell(i, j, grid) {
         revealCell(i + x, j + y, grid);
       }
     }
+  }
+}
+
+function flagCell (i, j, grid) {
+  let cell = document.getElementById(`${i}-${j}`);
+  if (!grid[i][j].isFlagged && !grid[i][j].isRevealed) {
+    grid[i][j].isFlagged = true;
+    cell.classList.add('cell-flag');
+  } else {
+    grid[i][j].isFlagged = false;
+    cell.classList.remove('cell-flag');
   }
 }
 
@@ -179,6 +218,7 @@ function chooseColor (number) {
 }
 
 let grid = createGrid(levels.beginner.width, levels.beginner.height);
+
 renderGrid(grid);
 plantMines(grid, levels.beginner.mines_amount);
 calculateAdjacentMines(grid);
@@ -190,4 +230,14 @@ gridHTML.addEventListener("click", (e) => {
   let i = Number(id[0]);
   let j = Number(id[1]);
   revealCell(i, j, grid);
-})
+});
+
+gridHTML.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  let id = e.target.id.split('-');
+  let i = Number(id[0]);
+  let j = Number(id[1]);
+  flagCell(i, j, grid);
+});
+
+
