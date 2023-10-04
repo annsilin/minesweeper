@@ -46,7 +46,7 @@ function plantMines(grid, minesNum) {
   while (addedMines < minesNum) {
     let i = getRandomInt(0, grid.length - 1);
     let j = getRandomInt(0, grid[0].length - 1);
-    if (!grid[i][j].isMine || !grid[i][j].isRevealed) {
+    if (!grid[i][j].isMine && !grid[i][j].isRevealed) {
       grid[i][j].isMine = true;
       addedMines++;
     }
@@ -201,12 +201,12 @@ function revealCell(i, j, grid) {
   if (grid[i][j].isFlagged) {
     flagCell(i, j, grid);
   }
-  console.log(findMines(grid));
   if (grid[i][j].isMine) {
     /// game over
     revealMines(grid);
     cell.classList.add('cell-mine-clicked');
     revealCorrectGuesses(grid);
+    loseCondition = true;
   } else if (grid[i][j].adjMines !== 0) {
     cell.textContent = grid[i][j].adjMines;
     cell.style.color = chooseColor(grid[i][j].adjMines);
@@ -241,6 +241,24 @@ function flagCell(i, j, grid) {
   } else {
     grid[i][j].isFlagged = false;
     cell.classList.remove('cell-flag');
+  }
+}
+
+function checkWinCondition(grid) {
+  let mines = findMines(grid);
+  let flags = findFlags(grid);
+  let revealedCells = findRevealedCells(grid);
+  let correctGuesses = findCorrectGuesses(grid);
+  return ((correctGuesses.length === mines.length && correctGuesses.length === flags.length) || (grid.length * grid[0].length - revealedCells.length === mines.length) &&
+      revealedCells.length === grid.length * grid[0].length - mines.length);
+}
+
+function checkGameStatus (loseCondition) {
+  let winCondition = checkWinCondition(grid);
+  if (!loseCondition && winCondition) {
+    alert('win');
+  } else if (loseCondition && !winCondition) {
+    alert('lose');
   }
 }
 
@@ -279,12 +297,15 @@ function chooseColor(number) {
 }
 
 let grid = createGrid(levels.beginner.width, levels.beginner.height);
+let loseCondition = false;
+let winCondition = false;
 
 renderGrid(grid);
 plantMines(grid, levels.beginner.mines_amount);
 calculateAdjacentMines(grid);
 // findMines(grid);
-// revealMines(grid);
+revealMines(grid);
+console.log(findMines(grid).length)
 
 gridHTML.addEventListener("click", (e) => {
   let id = e.target.id.split('-');
@@ -295,6 +316,7 @@ gridHTML.addEventListener("click", (e) => {
   } else {
     clickRevealedCell(i, j, grid);
   }
+  checkGameStatus(loseCondition, winCondition);
 });
 
 gridHTML.addEventListener("contextmenu", (e) => {
@@ -303,6 +325,7 @@ gridHTML.addEventListener("contextmenu", (e) => {
   let i = Number(id[0]);
   let j = Number(id[1]);
   flagCell(i, j, grid);
+  checkGameStatus(loseCondition, winCondition);
 });
 
 
