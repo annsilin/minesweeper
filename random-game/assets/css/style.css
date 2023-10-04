@@ -74,3 +74,8 @@
 .cell-mine-clicked {
   background-color: #ff0000;
 }
+
+.cell-flag-mine-clicked {
+  background-color: #ffa0a0;
+  background-image: url(../svg/flag.svg);
+}

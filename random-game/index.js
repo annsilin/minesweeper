@@ -124,6 +124,24 @@ function findFlags(grid) {
   return flags;
 }
 
+function findAdjacentFlagsCell(i, j, grid) {
+  let adjacentFlags = [];
+  for (let x = -1; x <= 1; x++) {
+    for (let y = -1; y <= 1; y++) {
+      const neighborRow = i + x;
+      const neighborCol = j + y;
+      if (
+        neighborRow >= 0 && neighborRow < grid.length &&
+        neighborCol >= 0 && neighborCol < grid[0].length &&
+        grid[neighborRow][neighborCol].isFlagged
+      ) {
+        adjacentFlags.push(grid[neighborRow][neighborCol]);
+      }
+    }
+  }
+  return adjacentFlags;
+}
+
 function findRevealedCells(grid) {
   let revealed = [];
 
@@ -146,6 +164,31 @@ function revealMines(grid) {
   })
 }
 
+function findCorrectGuesses(grid) {
+  let mines = findMines(grid);
+  let flags = findFlags(grid);
+  let correctGuesses = [];
+
+  // Iterate through all mines
+  mines.forEach(mine => {
+    // Check if there's a cell with same coordinates in flags array
+    const isMatching = flags.some(flag => mine.i === flag.i && mine.j === flag.j);
+    if (isMatching) {
+      // If there is one - add it to correct guesses
+      correctGuesses.push(mine);
+    }
+  })
+  return correctGuesses;
+}
+
+function revealCorrectGuesses(grid) {
+  let correctGuesses = findCorrectGuesses(grid);
+  correctGuesses.forEach((guess) => {
+    let cellGuess = document.getElementById(`${guess.i}-${guess.j}`);
+    cellGuess.classList.add('cell-flag-mine-clicked');
+  })
+}
+
 function revealCell(i, j, grid) {
   if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || grid[i][j].isRevealed) {
     return;
@@ -155,11 +198,15 @@ function revealCell(i, j, grid) {
   grid[i][j].isRevealed = true;
   cell.classList.add('cell-opened');
   cell.classList.remove('cell-closed');
-
+  if (grid[i][j].isFlagged) {
+    flagCell(i, j, grid);
+  }
+  console.log(findMines(grid));
   if (grid[i][j].isMine) {
     /// game over
     revealMines(grid);
     cell.classList.add('cell-mine-clicked');
+    revealCorrectGuesses(grid);
   } else if (grid[i][j].adjMines !== 0) {
     cell.textContent = grid[i][j].adjMines;
     cell.style.color = chooseColor(grid[i][j].adjMines);
@@ -172,7 +219,21 @@ function revealCell(i, j, grid) {
   }
 }
 
-function flagCell (i, j, grid) {
+function clickRevealedCell(i, j, grid) {
+  if (grid[i][j].adjMines > 0 && findAdjacentFlagsCell(i, j, grid).length === grid[i][j].adjMines) {
+    for (let x = -1; x <= 1; x++) {
+      for (let y = -1; y <= 1; y++) {
+        if (!(i + x < 0 || j + y < 0 || i + x >= grid.length || j + y >= grid[0].length)) {
+          if (!grid[i + x][j + y].isFlagged) {
+            revealCell(i + x, j + y, grid);
+          }
+        }
+      }
+    }
+  }
+}
+
+function flagCell(i, j, grid) {
   let cell = document.getElementById(`${i}-${j}`);
   if (!grid[i][j].isFlagged && !grid[i][j].isRevealed) {
     grid[i][j].isFlagged = true;
@@ -183,9 +244,9 @@ function flagCell (i, j, grid) {
   }
 }
 
-function chooseColor (number) {
+function chooseColor(number) {
   let color = '';
-  switch(number) {
+  switch (number) {
     case 1:
       color = '#244afc';
       break;
@@ -229,7 +290,11 @@ gridHTML.addEventListener("click", (e) => {
   let id = e.target.id.split('-');
   let i = Number(id[0]);
   let j = Number(id[1]);
-  revealCell(i, j, grid);
+  if (!grid[i][j].isRevealed) {
+    revealCell(i, j, grid);
+  } else {
+    clickRevealedCell(i, j, grid);
+  }
 });
 
 gridHTML.addEventListener("contextmenu", (e) => {
