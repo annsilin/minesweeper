@@ -63,15 +63,33 @@ function flagCell(i, j, grid) {
   }
 }
 
+/* If user's first click/flag === mine => reshuffle the grid */
+function handleFirstMove(i, j) {
+  while (isFirstMove) {
+    if (isFirstMove && grid[i][j].isMine) {
+      loseCondition = false;
+      winCondition = false;
+      grid = createGrid(currentDifficulty);
+      initGame(currentDifficulty, grid);
+    } else {
+      isFirstMove = false;
+    }
+  }
+}
+
 /* Perform cell reveal when clicking LMB */
 let leftClickHandler = (e) => {
   if (e.target.classList.contains('cell')) {
     let id = e.target.id.split('-');
     let i = Number(id[0]);
     let j = Number(id[1]);
+
+    handleFirstMove(i, j);
+
     if (!grid[i][j].isRevealed) {
       revealCell(i, j, grid);
-    } else {
+    }
+    else {
       clickRevealedCell(i, j, grid);
     }
     updateMinesCounter(grid);
@@ -86,6 +104,9 @@ let rightClickHandler = (e) => {
     let id = e.target.id.split('-');
     let i = Number(id[0]);
     let j = Number(id[1]);
+
+    handleFirstMove(i, j);
+
     flagCell(i, j, grid);
     updateMinesCounter(grid);
     checkGameStatus(loseCondition, winCondition);
@@ -183,6 +204,7 @@ function checkGameStatus(loseCondition) {
 }
 
 function initGame(difficulty, grid) {
+  isFirstMove = true;
   restartBtn.classList.remove('restart-btn-won');
   restartBtn.classList.remove('restart-btn-lost');
   renderGrid(grid, difficulty);
@@ -191,9 +213,9 @@ function initGame(difficulty, grid) {
   addClickListeners(grid);
   updateMinesCounter(grid);
   resetTimer();
-  revealMines(grid);
 }
 
+let isFirstMove = true;
 let currentDifficulty = 'beginner'
 let grid = createGrid(currentDifficulty);
 initGame(currentDifficulty, grid);
