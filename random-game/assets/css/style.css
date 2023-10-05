@@ -10,24 +10,18 @@
   --num-1-color: #244afc;
   --num-2-color: #407f07;
   --num-3-color: #fe0000;
-  --num-4-color: #0d2180;
-  --num-5-color: #801e17;
-  --num-6-color: #008284;
-  --num-7-color: #840084;
-  --num-8-color: #757575;
   --cell-size: 30px;
-  --grid-size-beginner: calc(var(--cell-size) * 9);
-  --grid-size-intermediate: calc(var(--cell-size) * 16);
-  --grid-size-expert-height: calc(var(--cell-size) * 16);
-  --grid-size-expert-width: calc(var(--cell-size) * 30);
+  --grid-height: calc(var(--cell-size) * 9);
+  --grid-width: calc(var(--cell-size) * 9);
+
 }
 
 .grid-visual-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(var(--grid-size-beginner) + 20px);
-  height: calc(var(--grid-size-beginner) + 20px);
+  width: calc(var(--grid-width) + 20px);
+  height: calc(var(--grid-height) + 20px);
   background-color: var(--grey-bg-color);
   border-left: 3px solid var(--white-border-color);
   /*border-top: 3px solid var(--white-border-color);*/
@@ -37,8 +31,10 @@
 
 .grid {
   box-sizing: unset;
-  width: var(--grid-size-beginner);
-  height: var(--grid-size-beginner);
+  /*width: var(--grid-size-beginner);*/
+  /*height: var(--grid-size-beginner);*/
+  width: var(--grid-width);
+  height: var(--grid-height);
   display: flex;
   flex-wrap: wrap;
   border-right: 3px solid var(--white-border-color);
@@ -102,7 +98,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(var(--grid-size-beginner) + 20px);
+  width: calc(var(--grid-width) + 20px);
   height: fit-content;
   /*padding: 5px;*/
   padding: 7px 5px 5px 5px;
@@ -152,7 +148,7 @@ input[id='expert']:checked + .difficulty-btn {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: calc(var(--grid-size-beginner) + 20px);
+  width: calc(var(--grid-width) + 20px);
   height: fit-content;
   padding: 5px;
   background-color: var(--grey-bg-color);

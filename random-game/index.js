@@ -18,18 +18,21 @@ const levels = {
 
 const gridHTML = document.querySelector('.grid');
 
-function createGrid(width, height) {
+function createGrid(difficulty) {
   let grid = [];
-  for (let i = 0; i < width; i++) {
+  console.log(grid);
+  for (let i = 0; i < levels[difficulty].height; i++) {
     grid[i] = [];
-    for (let j = 0; j < height; j++) {
+    for (let j = 0; j < levels[difficulty].width; j++) {
       grid[i][j] = {isMine: false, isRevealed: false, adjMines: 0, isFlagged: false};
     }
   }
   return grid;
 }
 
-function renderGrid(grid) {
+function renderGrid(grid, difficulty) {
+  gridHTML.innerHTML = '';
+  chooseSize(difficulty);
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[0].length; j++) {
       let cell = document.createElement('div');
@@ -41,8 +44,10 @@ function renderGrid(grid) {
   }
 }
 
-function plantMines(grid, minesNum) {
+function plantMines(grid, difficulty) {
   let addedMines = 0;
+  console.log('dif:', difficulty);
+  let minesNum = levels[difficulty].mines_amount;
   while (addedMines < minesNum) {
     let i = getRandomInt(0, grid.length - 1);
     let j = getRandomInt(0, grid[0].length - 1);
@@ -206,7 +211,7 @@ function revealCell(i, j, grid) {
     revealMines(grid);
     cell.classList.add('cell-mine-clicked');
     revealCorrectGuesses(grid);
-    loseCondition = true;
+    // loseCondition = true;
   } else if (grid[i][j].adjMines !== 0) {
     cell.textContent = grid[i][j].adjMines;
     cell.style.color = chooseColor(grid[i][j].adjMines);
@@ -296,40 +301,88 @@ function chooseColor(number) {
   return color;
 }
 
-let grid = createGrid(levels.beginner.width, levels.beginner.height);
-let loseCondition = false;
-let winCondition = false;
+function chooseSize(difficulty) {
+  document.documentElement.style.setProperty('--grid-height', `calc(var(--cell-size) * ${levels[difficulty].height})`);
+  document.documentElement.style.setProperty('--grid-width', `calc(var(--cell-size) * ${levels[difficulty].width})`);
+}
 
-renderGrid(grid);
-plantMines(grid, levels.beginner.mines_amount);
-calculateAdjacentMines(grid);
-// findMines(grid);
-revealMines(grid);
-console.log(findMines(grid).length)
-
-gridHTML.addEventListener("click", (e) => {
+let leftClickHandler = (e) => {
   if (e.target.classList.contains('cell')) {
     let id = e.target.id.split('-');
     let i = Number(id[0]);
     let j = Number(id[1]);
+    console.log(grid[i][j]);
     if (!grid[i][j].isRevealed) {
       revealCell(i, j, grid);
     } else {
       clickRevealedCell(i, j, grid);
     }
-    checkGameStatus(loseCondition, winCondition);
+    // checkGameStatus(loseCondition, winCondition);
   }
-});
+};
 
-gridHTML.addEventListener("contextmenu", (e) => {
+let rightClickHandler = (e) => {
   if (e.target.classList.contains('cell')) {
     e.preventDefault();
     let id = e.target.id.split('-');
     let i = Number(id[0]);
     let j = Number(id[1]);
     flagCell(i, j, grid);
-    checkGameStatus(loseCondition, winCondition);
+    // checkGameStatus(loseCondition, winCondition);
   }
+};
+
+function addClickListeners() {
+  gridHTML.addEventListener("click", leftClickHandler);
+  gridHTML.addEventListener("contextmenu", rightClickHandler);
+}
+
+function removeClickListeners() {
+  gridHTML.removeEventListener("click", leftClickHandler);
+  gridHTML.removeEventListener("contextmenu", rightClickHandler);
+}
+
+function initGame(difficulty, grid) {
+  renderGrid(grid, difficulty);
+  plantMines(grid, difficulty);
+  calculateAdjacentMines(grid);
+  addClickListeners(grid);
+  // revealMines(grid);
+}
+
+let grid = createGrid('beginner');
+initGame('beginner', grid);
+
+document.querySelectorAll("input[name='difficulty']").forEach((radio) => {
+  radio.addEventListener('click', (event) => {
+    if (event.target.checked) {
+      switch (event.target.value) {
+        case 'beginner':
+          removeClickListeners(grid);
+          grid = createGrid('beginner');
+          initGame('beginner', grid);
+          break;
+        case 'intermediate':
+          removeClickListeners(grid);
+          grid = createGrid('intermediate');
+          initGame('intermediate', grid);
+          break;
+        case 'expert':
+          removeClickListeners(grid);
+          grid = createGrid('expert');
+          initGame('expert', grid);
+          break;
+        default:
+          break;
+      }
+    }
+  });
+})
+
+gridHTML.removeEventListener("click", (e) => {
+  leftClickHandler(e, grid);
 });
 
-
+gridHTML.removeEventListener("contextmenu", (e) => {
+  rightClickHandler(e, grid);
+});
