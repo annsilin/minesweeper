@@ -17,6 +17,7 @@ const levels = {
 };
 
 const gridHTML = document.querySelector('.grid');
+const minesHTML = document.querySelector('.mines');
 
 function createGrid(difficulty) {
   let grid = [];
@@ -306,6 +307,10 @@ function chooseSize(difficulty) {
   document.documentElement.style.setProperty('--grid-width', `calc(var(--cell-size) * ${levels[difficulty].width})`);
 }
 
+function updateMinesCounter(grid) {
+  minesHTML.textContent = `${findMines(grid).length - findFlags(grid).length}`;
+}
+
 let leftClickHandler = (e) => {
   if (e.target.classList.contains('cell')) {
     let id = e.target.id.split('-');
@@ -318,6 +323,7 @@ let leftClickHandler = (e) => {
       clickRevealedCell(i, j, grid);
     }
     // checkGameStatus(loseCondition, winCondition);
+    updateMinesCounter(grid);
   }
 };
 
@@ -329,6 +335,7 @@ let rightClickHandler = (e) => {
     let j = Number(id[1]);
     flagCell(i, j, grid);
     // checkGameStatus(loseCondition, winCondition);
+    updateMinesCounter(grid);
   }
 };
 
@@ -347,6 +354,7 @@ function initGame(difficulty, grid) {
   plantMines(grid, difficulty);
   calculateAdjacentMines(grid);
   addClickListeners(grid);
+  updateMinesCounter(grid);
   // revealMines(grid);
 }
 

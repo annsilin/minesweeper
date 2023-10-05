@@ -158,19 +158,10 @@ input[id='expert']:checked + .difficulty-btn {
   /*border-bottom: 3px solid var(--grey-border-color);*/
 }
 
-.mines {
-  padding: 5px 38px 5px 38px;
-  background-color: var(--grey-bg-color);
-  border-right: 3px solid var(--white-border-color);
-  border-bottom: 3px solid var(--white-border-color);
-  border-left: 3px solid var(--grey-border-color);
-  border-top: 3px solid var(--grey-border-color);
-  font-family: 'Chakra Petch', sans-serif;
-  font-size: 20px;
-}
-
-.timer {
+.mines, .timer {
+  min-width: 105px;
   padding: 5px 6px 5px 6px;
+  text-align: center;
   background-color: var(--grey-bg-color);
   border-right: 3px solid var(--white-border-color);
   border-bottom: 3px solid var(--white-border-color);
