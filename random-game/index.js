@@ -18,6 +18,7 @@ const levels = {
 
 const gridHTML = document.querySelector('.grid');
 const minesHTML = document.querySelector('.mines');
+const timerHTML = document.querySelector(".timer");
 
 function createGrid(difficulty) {
   let grid = [];
@@ -342,11 +343,15 @@ let rightClickHandler = (e) => {
 function addClickListeners() {
   gridHTML.addEventListener("click", leftClickHandler);
   gridHTML.addEventListener("contextmenu", rightClickHandler);
+  gridHTML.addEventListener("click", timerEvent);
+  gridHTML.addEventListener("contextmenu", timerEvent);
 }
 
 function removeClickListeners() {
   gridHTML.removeEventListener("click", leftClickHandler);
   gridHTML.removeEventListener("contextmenu", rightClickHandler);
+  gridHTML.removeEventListener("click", timerEvent);
+  gridHTML.removeEventListener("contextmenu", timerEvent);
 }
 
 function initGame(difficulty, grid) {
@@ -355,6 +360,7 @@ function initGame(difficulty, grid) {
   calculateAdjacentMines(grid);
   addClickListeners(grid);
   updateMinesCounter(grid);
+  resetTimer();
   // revealMines(grid);
 }
 
@@ -387,10 +393,3 @@ document.querySelectorAll("input[name='difficulty']").forEach((radio) => {
   });
 })
 
-gridHTML.removeEventListener("click", (e) => {
-  leftClickHandler(e, grid);
-});
-
-gridHTML.removeEventListener("contextmenu", (e) => {
-  rightClickHandler(e, grid);
-});
