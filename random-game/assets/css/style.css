@@ -184,6 +184,18 @@ input[id='expert']:checked + .difficulty-btn {
   border-bottom: 3px solid var(--grey-border-color);
 }
 
+.restart-btn-normal {
+  background-image: url(../svg/smiley.svg);
+}
+
+.restart-btn-won {
+  background-image: url(../svg/cool.svg);
+}
+
+.restart-btn-lost {
+  background-image: url(../svg/dead.svg);
+}
+
 .restart-btn:active {
   background-color: var(--grey-bg-color);
   border-right: 3px solid var(--white-border-color);

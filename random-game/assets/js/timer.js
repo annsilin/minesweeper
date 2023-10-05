@@ -7,7 +7,7 @@ function startTimer() {
   timerInterval = setInterval(updateTimer, 1000); // Update the timer every second
 }
 
-function updateTimer() {
+function calculateTime() {
   const currentTime = new Date().getTime(); // Get the current time
   const elapsedTime = new Date(currentTime - startTime); // Calculate elapsed time
 
@@ -15,13 +15,21 @@ function updateTimer() {
   const hours = String(elapsedTime.getUTCHours()).padStart(2, "0");
   const minutes = String(elapsedTime.getUTCMinutes()).padStart(2, "0");
   const seconds = String(elapsedTime.getUTCSeconds()).padStart(2, "0");
+  return {hours, minutes, seconds}
+}
 
-  timerHTML.textContent = `${hours}:${minutes}:${seconds}`;
+function updateTimer() {
+  let time = calculateTime();
+
+  timerHTML.textContent = `${time.hours}:${time.minutes}:${time.seconds}`;
 }
 
 function stopTimer() {
   clearInterval(timerInterval);
   timerOn = false;
+  let time = calculateTime();
+
+  return `${time.hours}:${time.minutes}:${time.seconds}`;
 }
 
 function resetTimer() {
@@ -33,7 +41,7 @@ function resetTimer() {
 /* Helper function for event listener */
 function timerEvent() {
   if (!timerOn) {
-    startTimer();
     timerOn = true;
+    startTimer();
   }
 }

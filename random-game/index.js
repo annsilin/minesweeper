@@ -1,7 +1,7 @@
 const gridHTML = document.querySelector('.grid');
 const minesHTML = document.querySelector('.mines');
 const timerHTML = document.querySelector(".timer");
-
+const restartBtn = document.querySelector(".restart-btn");
 
 
 /* Handle clicking on a cell to reveal it */
@@ -14,6 +14,7 @@ function revealCell(i, j, grid) {
   grid[i][j].isRevealed = true;
   cell.classList.add('cell-opened');
   cell.classList.remove('cell-closed');
+
   if (grid[i][j].isFlagged) {
     flagCell(i, j, grid);
   }
@@ -110,17 +111,26 @@ document.querySelectorAll("input[name='difficulty']").forEach((radio) => {
     if (event.target.checked) {
       switch (event.target.value) {
         case 'beginner':
+          loseCondition = false;
+          winCondition = false;
           removeClickListeners(grid);
+          currentDifficulty = 'beginner';
           grid = createGrid('beginner');
           initGame('beginner', grid);
           break;
         case 'intermediate':
+          loseCondition = false;
+          winCondition = false;
           removeClickListeners(grid);
+          currentDifficulty = 'intermediate';
           grid = createGrid('intermediate');
           initGame('intermediate', grid);
           break;
         case 'expert':
+          loseCondition = false;
+          winCondition = false;
           removeClickListeners(grid);
+          currentDifficulty = 'expert';
           grid = createGrid('expert');
           initGame('expert', grid);
           break;
@@ -131,35 +141,61 @@ document.querySelectorAll("input[name='difficulty']").forEach((radio) => {
   });
 })
 
+restartBtn.addEventListener("click", (e) => {
+  loseCondition = false;
+  winCondition = false;
+  removeClickListeners(grid);
+  grid = createGrid(currentDifficulty);
+  initGame(currentDifficulty, grid);
+});
+
 function checkWinCondition(grid) {
   let mines = findMines(grid);
   let flags = findFlags(grid);
   let revealedCells = findRevealedCells(grid);
   let correctGuesses = findCorrectGuesses(grid);
-  return ((correctGuesses.length === mines.length && correctGuesses.length === flags.length) || (grid.length * grid[0].length - revealedCells.length === mines.length) &&
-    revealedCells.length === grid.length * grid[0].length - mines.length);
+  return (correctGuesses.length === mines.length && correctGuesses.length === flags.length) || (grid.length * grid[0].length - revealedCells.length === mines.length);
 }
 
 function checkGameStatus(loseCondition) {
   let winCondition = checkWinCondition(grid);
   if (!loseCondition && winCondition) {
-    alert('win');
+    console.log('win');
+    restartBtn.classList.add('restart-btn-won');
+    removeClickListeners(grid);
+    const result = {
+      won: true,
+      correctGuesses: findMines(grid).length,
+      time: stopTimer(),
+    };
+    console.log(result);
   } else if (loseCondition && !winCondition) {
-    alert('lose');
+    console.log('lose');
+    restartBtn.classList.add('restart-btn-lost');
+    removeClickListeners(grid);
+    const result = {
+      won: false,
+      correctGuesses: findCorrectGuesses(grid).length,
+      time: stopTimer(),
+    };
+    console.log(result);
   }
 }
 
 function initGame(difficulty, grid) {
+  restartBtn.classList.remove('restart-btn-won');
+  restartBtn.classList.remove('restart-btn-lost');
   renderGrid(grid, difficulty);
   plantMines(grid, difficulty);
   calculateAdjacentMines(grid);
   addClickListeners(grid);
   updateMinesCounter(grid);
   resetTimer();
-  // revealMines(grid);
+  revealMines(grid);
 }
 
-let grid = createGrid('beginner');
-initGame('beginner', grid);
+let currentDifficulty = 'beginner'
+let grid = createGrid(currentDifficulty);
+initGame(currentDifficulty, grid);
 let loseCondition = false;
 let winCondition = false;
