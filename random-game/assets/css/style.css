@@ -173,8 +173,8 @@ input[id='expert']:checked + .difficulty-btn {
 
 .restart-btn {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   background-color: var(--grey-bg-color);
   background-image: url(../svg/smiley.svg);
   background-size: cover;

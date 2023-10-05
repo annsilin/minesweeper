@@ -118,6 +118,9 @@ function addClickListeners() {
   gridHTML.addEventListener("contextmenu", rightClickHandler);
   gridHTML.addEventListener("click", timerEvent);
   gridHTML.addEventListener("contextmenu", timerEvent);
+  gridHTML.addEventListener("mousedown", mouseDownHandler);
+  gridHTML.addEventListener("mouseup", removeActiveCellState);
+  gridHTML.addEventListener("mouseleave", removeActiveCellState);
 }
 
 function removeClickListeners() {
@@ -125,6 +128,9 @@ function removeClickListeners() {
   gridHTML.removeEventListener("contextmenu", rightClickHandler);
   gridHTML.removeEventListener("click", timerEvent);
   gridHTML.removeEventListener("contextmenu", timerEvent);
+  gridHTML.removeEventListener("mousedown", mouseDownHandler);
+  gridHTML.removeEventListener("mouseup", removeActiveCellState);
+  gridHTML.removeEventListener("mouseleave", removeActiveCellState);
 }
 
 document.querySelectorAll("input[name='difficulty']").forEach((radio) => {
@@ -162,7 +168,7 @@ document.querySelectorAll("input[name='difficulty']").forEach((radio) => {
   });
 })
 
-restartBtn.addEventListener("click", (e) => {
+restartBtn.addEventListener("click", () => {
   loseCondition = false;
   winCondition = false;
   removeClickListeners(grid);
