@@ -250,10 +250,10 @@ function checkWinCondition(grid) {
   let revealedCells = findRevealedCells(grid);
   let correctGuesses = findCorrectGuesses(grid);
   return ((correctGuesses.length === mines.length && correctGuesses.length === flags.length) || (grid.length * grid[0].length - revealedCells.length === mines.length) &&
-      revealedCells.length === grid.length * grid[0].length - mines.length);
+    revealedCells.length === grid.length * grid[0].length - mines.length);
 }
 
-function checkGameStatus (loseCondition) {
+function checkGameStatus(loseCondition) {
   let winCondition = checkWinCondition(grid);
   if (!loseCondition && winCondition) {
     alert('win');
@@ -308,24 +308,28 @@ revealMines(grid);
 console.log(findMines(grid).length)
 
 gridHTML.addEventListener("click", (e) => {
-  let id = e.target.id.split('-');
-  let i = Number(id[0]);
-  let j = Number(id[1]);
-  if (!grid[i][j].isRevealed) {
-    revealCell(i, j, grid);
-  } else {
-    clickRevealedCell(i, j, grid);
+  if (e.target.classList.contains('cell')) {
+    let id = e.target.id.split('-');
+    let i = Number(id[0]);
+    let j = Number(id[1]);
+    if (!grid[i][j].isRevealed) {
+      revealCell(i, j, grid);
+    } else {
+      clickRevealedCell(i, j, grid);
+    }
+    checkGameStatus(loseCondition, winCondition);
   }
-  checkGameStatus(loseCondition, winCondition);
 });
 
 gridHTML.addEventListener("contextmenu", (e) => {
-  e.preventDefault();
-  let id = e.target.id.split('-');
-  let i = Number(id[0]);
-  let j = Number(id[1]);
-  flagCell(i, j, grid);
-  checkGameStatus(loseCondition, winCondition);
+  if (e.target.classList.contains('cell')) {
+    e.preventDefault();
+    let id = e.target.id.split('-');
+    let i = Number(id[0]);
+    let j = Number(id[1]);
+    flagCell(i, j, grid);
+    checkGameStatus(loseCondition, winCondition);
+  }
 });
 
 

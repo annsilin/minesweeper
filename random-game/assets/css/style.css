@@ -22,11 +22,29 @@
   --grid-size-expert-width: calc(var(--cell-size) * 30);
 }
 
+.grid-visual-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(var(--grid-size-beginner) + 20px);
+  height: calc(var(--grid-size-beginner) + 20px);
+  background-color: var(--grey-bg-color);
+  border-left: 3px solid var(--white-border-color);
+  /*border-top: 3px solid var(--white-border-color);*/
+  border-right: 3px solid var(--grey-border-color);
+  border-bottom: 3px solid var(--grey-border-color);
+}
+
 .grid {
+  box-sizing: unset;
   width: var(--grid-size-beginner);
   height: var(--grid-size-beginner);
   display: flex;
   flex-wrap: wrap;
+  border-right: 3px solid var(--white-border-color);
+  border-bottom: 3px solid var(--white-border-color);
+  border-left: 3px solid var(--grey-border-color);
+  border-top: 3px solid var(--grey-border-color);
 }
 
 .cell {
@@ -78,4 +96,111 @@
 .cell-flag-mine-clicked {
   background-color: #ffa0a0;
   background-image: url(../svg/flag.svg);
+}
+
+.difficulty-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(var(--grid-size-beginner) + 20px);
+  height: fit-content;
+  /*padding: 5px;*/
+  padding: 7px 5px 5px 5px;
+  background-color: var(--grey-bg-color);
+  border-left: 3px solid var(--white-border-color);
+  border-top: 3px solid var(--white-border-color);
+  border-right: 3px solid var(--grey-border-color);
+  /*border-bottom: 3px solid var(--grey-border-color);*/
+}
+
+input[type='radio'] {
+  appearance: none;
+  margin: 0;
+}
+
+.difficulty-btn {
+  background-color: var(--grey-bg-color);
+  border-left: 3px solid var(--white-border-color);
+  border-top: 3px solid var(--white-border-color);
+  border-right: 3px solid var(--grey-border-color);
+  border-bottom: 3px solid var(--grey-border-color);
+  padding: 5px;
+  font-family: 'Kanit', sans-serif;
+}
+
+input[type='radio']:checked + .difficulty-btn {
+  background-color: var(--grey-bg-color);
+  border-right: 3px solid var(--white-border-color);
+  border-bottom: 3px solid var(--white-border-color);
+  border-left: 3px solid var(--grey-border-color);
+  border-top: 3px solid var(--grey-border-color);
+}
+
+input[id='beginner']:checked + .difficulty-btn {
+  color: var(--num-1-color);
+}
+
+input[id='intermediate']:checked + .difficulty-btn {
+  color: var(--num-2-color);
+}
+
+input[id='expert']:checked + .difficulty-btn {
+  color: var(--num-3-color);
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: calc(var(--grid-size-beginner) + 20px);
+  height: fit-content;
+  padding: 5px;
+  background-color: var(--grey-bg-color);
+  border-left: 3px solid var(--white-border-color);
+  /*border-top: 3px solid var(--white-border-color);*/
+  border-right: 3px solid var(--grey-border-color);
+  /*border-bottom: 3px solid var(--grey-border-color);*/
+}
+
+.mines {
+  padding: 5px 38px 5px 38px;
+  background-color: var(--grey-bg-color);
+  border-right: 3px solid var(--white-border-color);
+  border-bottom: 3px solid var(--white-border-color);
+  border-left: 3px solid var(--grey-border-color);
+  border-top: 3px solid var(--grey-border-color);
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 20px;
+}
+
+.timer {
+  padding: 5px 6px 5px 6px;
+  background-color: var(--grey-bg-color);
+  border-right: 3px solid var(--white-border-color);
+  border-bottom: 3px solid var(--white-border-color);
+  border-left: 3px solid var(--grey-border-color);
+  border-top: 3px solid var(--grey-border-color);
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 20px;
+}
+
+.restart-btn {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-color: var(--grey-bg-color);
+  background-image: url(../svg/smiley.svg);
+  background-size: cover;
+  border-left: 3px solid var(--white-border-color);
+  border-top: 3px solid var(--white-border-color);
+  border-right: 3px solid var(--grey-border-color);
+  border-bottom: 3px solid var(--grey-border-color);
+}
+
+.restart-btn:active {
+  background-color: var(--grey-bg-color);
+  border-right: 3px solid var(--white-border-color);
+  border-bottom: 3px solid var(--white-border-color);
+  border-left: 3px solid var(--grey-border-color);
+  border-top: 3px solid var(--grey-border-color);
 }

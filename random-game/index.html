@@ -9,10 +9,30 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="grid">
+<div class="difficulty-wrapper">
+  <input type="radio" name="difficulty" id="beginner" checked>
+  <label for="beginner" class="difficulty-btn">Beginner</label>
+
+  <input type="radio" name="difficulty" id="intermediate">
+  <label for="intermediate" class="difficulty-btn">Intermediate</label>
+
+  <input type="radio" name="difficulty" id="expert">
+  <label for="expert" class="difficulty-btn">Expert</label>
+</div>
+
+<div class="game-header">
+  <div class="mines">10</div>
+  <button class="restart-btn"></button>
+  <div class="timer">00:00:00</div>
+</div>
+
+<div class="grid-visual-wrapper">
+  <div class="grid"></div>
 </div>
 
 <script defer src="index.js"></script>
