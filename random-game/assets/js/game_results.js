@@ -32,3 +32,45 @@ function renderGameResults(results) {
     leaderboardTable.appendChild(tableRow);
   });
 }
+
+/* Display current result */
+function renderCurrentResult(result) {
+  const currentResultTable = document.querySelector('.current-result');
+  currentResultTable.innerHTML = '';
+  const resultText = document.querySelector('.result');
+
+  // Create a table with two columns
+  const table = document.createElement('table');
+
+  // Create a table row for each header and value pair
+  const headers = ['Result', 'Correct Guesses', 'Difficulty', 'Time'];
+  const values = [result.won ? 'Won' : 'Lost', result.correctGuesses, result.difficulty, result.time];
+
+  for (let i = 0; i < headers.length; i++) {
+    const header = headers[i];
+    const value = values[i];
+
+    const row = document.createElement('tr');
+    const headerCell = document.createElement('td');
+    const valueCell = document.createElement('td');
+
+    headerCell.textContent = header;
+    valueCell.textContent = value;
+
+    row.appendChild(headerCell);
+    row.appendChild(valueCell);
+
+    table.appendChild(row);
+  }
+
+  if (result.won) {
+    resultText.textContent = 'You won!';
+    resultText.style.color = '#407f07';
+  } else {
+    resultText.textContent = 'You lost!';
+    resultText.style.color = '#fe0000';
+  }
+
+  document.querySelector('.current-result-wrapper').style.display = 'block';
+  currentResultTable.appendChild(table);
+}

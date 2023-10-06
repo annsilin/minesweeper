@@ -195,6 +195,7 @@ function checkGameStatus(loseCondition) {
       difficulty: currentDifficulty,
       time: stopTimer(),
     };
+    renderCurrentResult(result);
     saveGameResult(result);
   } else if (loseCondition && !winCondition) { // lost
     restartBtn.classList.add('restart-btn-lost');
@@ -205,6 +206,7 @@ function checkGameStatus(loseCondition) {
       difficulty: currentDifficulty,
       time: stopTimer(),
     };
+    renderCurrentResult(result);
     saveGameResult(result);
   }
 }
@@ -219,6 +221,7 @@ function initGame(difficulty, grid) {
   addClickListeners(grid);
   updateMinesCounter(grid);
   resetTimer();
+  document.querySelector('.current-result-wrapper').style.display = 'none';
 }
 
 let isFirstMove = true;
