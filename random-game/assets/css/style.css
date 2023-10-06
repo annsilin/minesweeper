@@ -18,6 +18,9 @@
 
 body {
   background-color: var(--grey-bg-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .grid-visual-wrapper {
@@ -280,8 +283,12 @@ h1 {
   font-size: 48px;
 }
 
+.main-footer {
+  margin-top: auto;
+}
+
 #footer {
-  margin: 20px auto 0 auto;
+  margin: 30px auto 0 auto;
   max-width: 80vw;
   height: 40px;
   background: var(--grey-bg-color);
