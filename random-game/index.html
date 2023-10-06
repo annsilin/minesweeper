@@ -11,38 +11,67 @@
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
 </head>
 <body>
 
-<div class="game-wrapper">
-  <div class="difficulty-wrapper">
-    <input type="radio" name="difficulty" id="beginner" checked value="beginner">
-    <label for="beginner" class="difficulty-btn">Beginner</label>
+<header>
+  <h1>Minesweeper</h1>
+</header>
 
-    <input type="radio" name="difficulty" id="intermediate" value="intermediate">
-    <label for="intermediate" class="difficulty-btn">Intermediate</label>
+<main>
+  <div class="game-wrapper">
+    <div class="difficulty-wrapper">
+      <input type="radio" name="difficulty" id="beginner" checked value="beginner">
+      <label for="beginner" class="difficulty-btn">Beginner</label>
 
-    <input type="radio" name="difficulty" id="expert" value="expert">
-    <label for="expert" class="difficulty-btn">Expert</label>
+      <input type="radio" name="difficulty" id="intermediate" value="intermediate">
+      <label for="intermediate" class="difficulty-btn">Intermediate</label>
+
+      <input type="radio" name="difficulty" id="expert" value="expert">
+      <label for="expert" class="difficulty-btn">Expert</label>
+    </div>
+
+    <div class="game-header">
+      <div class="mines">10</div>
+      <button class="restart-btn"></button>
+      <div class="timer">00:00:00</div>
+    </div>
+
+    <div class="grid-visual-wrapper">
+      <div class="grid"></div>
+    </div>
   </div>
 
-  <div class="game-header">
-    <div class="mines">10</div>
-    <button class="restart-btn"></button>
-    <div class="timer">00:00:00</div>
+  <div class="leaderboard-wrapper">
+    <h2 class="leaderboard-title">Latest 10 games results:</h2>
+    <div class="leaderboard-visual-wrapper">
+      <table class="leaderboard"></table>
+    </div>
   </div>
+</main>
 
-  <div class="grid-visual-wrapper">
-    <div class="grid"></div>
-  </div>
-</div>
-
-<div class="leaderboard-wrapper">
-  <h2 class="leaderboard-title">Latest 10 games results:</h2>
-<div class="leaderboard-visual-wrapper">
-  <table class="leaderboard"></table>
-</div>
-</div>
+<footer class="main-footer">
+  <nav id="footer">
+    <ul>
+      <li>
+        <a href="https://github.com/annsilin" target="_blank">
+          <svg width="90px" height="26px">
+            <use href="assets/svg/icons.svg#github"></use>
+          </svg>
+        </a>
+      </li>
+      <li><p>2023</p></li>
+      <li>
+        <a href="https://rs.school/js-stage0/" target="_blank">
+          <svg width="90px" height="26px">
+            <use href="assets/svg/icons.svg#rsschool"></use>
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</footer>
 
 <script defer src="assets/js/data_and_styles.js"></script>
 <script defer src="assets/js/create_grid.js"></script>
