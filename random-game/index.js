@@ -186,26 +186,26 @@ function checkWinCondition(grid) {
 
 function checkGameStatus(loseCondition) {
   let winCondition = checkWinCondition(grid);
-  if (!loseCondition && winCondition) {
-    console.log('win');
+  if (!loseCondition && winCondition) { // won
     restartBtn.classList.add('restart-btn-won');
     removeClickListeners(grid);
     const result = {
       won: true,
       correctGuesses: findMines(grid).length,
+      difficulty: currentDifficulty,
       time: stopTimer(),
     };
-    console.log(result);
-  } else if (loseCondition && !winCondition) {
-    console.log('lose');
+    saveGameResult(result);
+  } else if (loseCondition && !winCondition) { // lost
     restartBtn.classList.add('restart-btn-lost');
     removeClickListeners(grid);
     const result = {
       won: false,
       correctGuesses: findCorrectGuesses(grid).length,
+      difficulty: currentDifficulty,
       time: stopTimer(),
     };
-    console.log(result);
+    saveGameResult(result);
   }
 }
 
@@ -227,3 +227,4 @@ let grid = createGrid(currentDifficulty);
 initGame(currentDifficulty, grid);
 let loseCondition = false;
 let winCondition = false;
+renderGameResults(JSON.parse(localStorage.getItem('gameResults-annsilin')) || []);

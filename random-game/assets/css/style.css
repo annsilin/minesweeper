@@ -203,3 +203,57 @@ input[id='expert']:checked + .difficulty-btn {
   border-left: 3px solid var(--grey-border-color);
   border-top: 3px solid var(--grey-border-color);
 }
+
+.leaderboard-visual-wrapper {
+  padding: 7px;
+  width: fit-content;
+  height: fit-content;
+  background-color: var(--grey-bg-color);
+  border-left: 3px solid var(--white-border-color);
+  border-top: 3px solid var(--white-border-color);
+  border-right: 3px solid var(--grey-border-color);
+  border-bottom: 3px solid var(--grey-border-color);
+}
+
+.leaderboard {
+  width: var(--grid-width);
+  border-collapse: collapse;
+  background-color: var(--grey-bg-color);
+  font-family: "Chakra Petch", sans-serif;
+  border-right: 3px solid var(--white-border-color);
+  border-bottom: 3px solid var(--white-border-color);
+  border-left: 3px solid var(--grey-border-color);
+  border-top: 3px solid var(--grey-border-color);
+}
+
+.leaderboard th {
+  background-color: var(--grey-bg-color);
+  color: #000000;
+  padding: 8px;
+}
+
+.leaderboard td {
+  padding: 8px;
+  border: 1px solid var(--grey-border-color);
+  text-align: center;
+}
+
+.leaderboard tr:nth-child(even) {
+  background-color: #a0a0a0;
+}
+
+.leaderboard-title {
+  font-family: "Chakra Petch", sans-serif;
+}
+
+.leaderboard-wrapper {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-wrapper {
+  margin: 0 auto;
+  width: fit-content;
+}
