@@ -17,37 +17,10 @@ const levels = {
 };
 
 function chooseColor(number) {
-  let color = '';
-  switch (number) {
-    case 1:
-      color = '#244afc';
-      break;
-    case 2:
-      color = '#407f07';
-      break;
-    case 3:
-      color = '#fe0000';
-      break;
-    case 4:
-      color = '#0d2180';
-      break;
-    case 5:
-      color = '#801e17';
-      break;
-    case 6:
-      color = '#008284';
-      break;
-    case 7:
-      color = '#840084';
-      break;
-    case 8:
-      color = '#757575';
-      break;
-    default:
-      color = '#000000';
-      break;
-  }
-  return color;
+  const DEFAULT_COLOR = '#000';
+  const colors = ['#244afc', '#407f07', '#fe0000', '#0d2180', '#801e17', '#008284', '#840084', '#757575'];
+
+  return colors[number - 1] ?? DEFAULT_COLOR;
 }
 
 function chooseSize(difficulty) {
