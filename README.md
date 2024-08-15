@@ -1,5 +1,5 @@
 # Minesweeper Game
-This project is a classic implementation of Minesweeper game made with HTML, CSS and vanilla Javascript. It was created as part of a [RSSchool](https://rs.school/) FrontEnd course.
+This project is a classic implementation of Minesweeper game made with HTML, CSS and vanilla JavaScript. It was created as part of a [RSSchool](https://rs.school/) FrontEnd course.
 
 ## Features
 - **Classic Windows Style Design**: The game replicates the look and feel of the classic Windows Minesweeper.
